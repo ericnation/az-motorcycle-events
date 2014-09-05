@@ -1,0 +1,49 @@
+.panel {
+	border: none;
+}
+
+.panel-heading span {
+	margin-top: -16px;
+}
+
+.page-header {
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,.7);
+}
+
+.page-header a {
+	color: #fff;
+	margin-top: -26px;
+}
+
+.page-header a:hover {
+	text-decoration: none;
+	color:#cdcdcd;
+}
+
+.panel-dark > .panel-heading {
+	color: #fff;
+	background-color: #222;
+	border-color: #222;
+}
+
+.panel-dark > .panel-heading a {
+	color: #777;
+}
+
+.panel-dark > .panel-heading a:hover {
+	color: #fff;
+	text-decoration: none;
+} 
+
+.form-wrap {
+	padding: 20px 30px;
+	background-color: #fff;
+	background-color: rgba(255, 255, 255, .8);
+	border-radius: 4px;
+}
+
+.form-wrap p {
+	color:#222;
+	text-shadow: none;
+}

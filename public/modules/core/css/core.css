@@ -1,0 +1,63 @@
+body {
+	background: url(../img/highway_pack.jpg) no-repeat center center fixed;
+	-webkit-background-size: cover;
+  	-moz-background-size: cover;
+  	-o-background-size: cover;
+  	background-size: cover;
+}
+
+.content {
+	margin-top: 50px;
+}
+.undecorated-link:hover {
+	text-decoration: none;
+}
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+	display: none !important;
+}
+.ng-invalid.ng-dirty{
+    border-color:#FA787E;
+}
+.ng-valid.ng-dirty{
+    border-color:#78FA89;
+}
+
+.index-content {
+	margin-top: 60px;
+}
+
+.home-header {
+	color: #fff;
+	text-shadow: 1px 1px 1px rgba(0,0,0,.7);
+}
+
+.home-header h1 {
+	margin-bottom: 50px;
+	font-size: 3.2em;
+}
+
+.home-header p {
+	font-size: 1.3em;
+}
+
+.home-form-wrap {
+	padding: 20px 40px;
+	background-color: #fff;
+	background-color: rgba(255, 255, 255, .8);
+	border-radius: 4px;
+}
+
+.nav-pic {
+	border-radius: 50%;
+	width: 30px;
+	height: 30px;
+	margin: 0;
+	margin-right: 10px;
+}
+
+.navbar-nav > li > a,.navbar-brand {
+	line-height: 30px;
+}
+
+
+
