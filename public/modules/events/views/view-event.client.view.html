@@ -1,35 +1,54 @@
 <section data-ng-controller="EventsController" data-ng-init="findOne()">
-	<div class="page-header">
-		<h1 data-ng-bind="event.name"></h1>
+	<div class="row">
+        <div class="col-md-12">
+			<div class="page-header">
+				<h1 data-ng-bind="event.name"></h1>
 
-		<a href="/#!/events" class="pull-right"><i class="glyphicon glyphicon-arrow-left"></i> Back to Events</a>
-	</div>
-		<div class="form-wrap">
-			<p><span>Host:</span> &nbsp; {{event.host}}</p>
-			<p><span>Location:</span> &nbsp; {{event.location}}</p>
-			<p><span>Address:</span> &nbsp; {{event.address}}</p>
-			<p><span>Date:</span> &nbsp; {{event.date | date:'shortDate'}}</p>
-			<p><span>Time:</span> &nbsp; {{event.time}}</p>
-			<p><span>Cost:</span> &nbsp; {{event.cost}}</p>
-			<p><span>Details:</span> &nbsp; {{event.details}}</p>
-			<hr/>
-
-			<div class="pull-right" data-ng-show="authentication.user._id == event.user._id">
-				<a class="btn btn-primary btn-sm" href="/#!/events/{{event._id}}/edit">
-					<i class="glyphicon glyphicon-edit"></i>
-				</a>
-				<a class="btn btn-primary btn-sm" data-ng-click="remove();">
-					<i class="glyphicon glyphicon-trash"></i>
-				</a>
+				<a href="/#!/events" class="pull-right"><i class="glyphicon glyphicon-arrow-left"></i> Back to Events</a>
 			</div>
-			<small>
-				<em class="text-muted">
-					Posted on
-					<span data-ng-bind="event.created | date:'mediumDate'"></span>
-					by
-					<span data-ng-bind="event.user.displayName"></span>
-				</em>
-			</small>
 		</div>
+	</div>
+	
+	<div class="form-wrap">
+		<div class="row">
+				<div class="col-xs-12 col-md-6">
+					<p><span><strong>Host:</strong></span> &nbsp; {{event.host}}</p>
+					<p><span><strong>Location:</strong></span> &nbsp; {{event.location}}</p>
+					<address><span><strong>Address:</strong></span> &nbsp; <a ng-href="http://maps.google.com/maps?q={{event.address}}" target="_blank" data-ng-bind="event.address"></a></address>
+					<p><span><strong>Date:</strong></span> &nbsp; {{event.date | date:'shortDate'}}</p>
+					<p><span><strong>Time:</strong></span> &nbsp; {{event.time}}</p>
+					<p><span><strong>Cost:</strong></span> &nbsp; {{event.cost}}</p>
+					<p><span><strong>Details:</strong></span> &nbsp; {{event.details}}</p>
+				</div>
+				<div class="col-xs-12 col-md-6">
+					<img class="pull-right" src="http://placehold.it/200x150">
+				</div>
+
+			
+		</div>
+		<hr/>
+		<div class="row">	
+			<div class="col-md-6">
+				<small>
+					<em class="text-muted">
+						Posted on
+						<span data-ng-bind="event.created | date:'mediumDate'"></span>
+						by
+						<span data-ng-bind="event.user.displayName"></span>
+					</em>
+				</small>
+			</div>
+			<div class="col-md-6">
+				<div class="pull-right" data-ng-show="authentication.user._id == event.user._id">
+					<a class="btn btn-primary btn-sm" href="/#!/events/{{event._id}}/edit">
+						<i class="glyphicon glyphicon-edit"></i>
+					</a>
+					<a class="btn btn-primary btn-sm" data-ng-click="remove();">
+						<i class="glyphicon glyphicon-trash"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
 
 </section>

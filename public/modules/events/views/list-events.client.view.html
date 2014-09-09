@@ -20,12 +20,12 @@
                         <h3 data-ng-bind="event.name" class="panel-title"> </h3> 
                         <span  class="pull-right" data-ng-bind="event.date | date:'shortDate'"></span></a> 
                       </div>
-                      <div class="panel-body">
+                      <div class="panel-body" id="event-panel-body">
                         <div class="row">
                             <div class="col-sm-12 col-md-7">
                                 <p><strong>Host:</strong> <span data-ng-bind="event.host"></span></p>
                                 <p><strong>Location:</strong> <span data-ng-bind="event.location"></span></p>
-                                <p><strong>Address:</strong> <span data-ng-bind="event.address"></span></p>
+                                <address><strong>Address:</strong> <a ng-href="http://maps.google.com/maps?q={{event.address}}" data-ng-bind="event.address"  target="_blank"></a></address>
                                 <p><strong>Date:</strong> <span data-ng-bind="event.date | date:'shortDate'"></span></p>
                                 <p><strong>Time:</strong> <span data-ng-bind="event.time"></span></p>
                                 <p><strong>Cost:</strong> <span data-ng-bind="event.cost"></span></p>
@@ -58,5 +58,6 @@
         	No Events yet, why don't you <a href="/#!/events/create">create one</a>?
         </div>
     </div>
+    
     
 </section>

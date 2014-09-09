@@ -9,6 +9,7 @@ module.exports = {
 				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
 			],
 			js: [
+				'public/lib/ng-file-upload-shim/angular-file-upload-shim.min.js',
 				'public/lib/angular/angular.min.js',
 				'public/lib/angular-resource/angular-resource.js', 
 				'public/lib/angular-cookies/angular-cookies.js', 
@@ -17,7 +18,11 @@ module.exports = {
 				'public/lib/angular-sanitize/angular-sanitize.js', 
 				'public/lib/angular-ui-router/release/angular-ui-router.min.js',
 				'public/lib/angular-ui-utils/ui-utils.min.js',
-				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js'
+				'public/lib/angular-bootstrap/ui-bootstrap-tpls.min.js',
+				'public/lib/angular-gravatar/md5.min.js',
+				'public/lib/angular-gravatar/angular-gravatar.min.js',
+				'public/lib/ng-file-upload-shim/angular-file-upload.min.js',
+				'public/lib/jquery/dist/jquery.min.js'
 			]
 		},
 		css: 'public/dist/application.min.css',
