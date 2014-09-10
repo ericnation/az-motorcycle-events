@@ -11,6 +11,7 @@
             </div>
         </div>
     </div> 
+
     <div class="row">
             <div data-ng-repeat="event in events | orderBy:'date'">
                 <div class="col-md-6">
@@ -32,7 +33,7 @@
                                 <p><strong>Details:</strong> <span data-ng-bind="event.details"></span></p>
                             </div>
                             <div class="col-md-5">
-                                <img class="pull-right" src="http://placehold.it/200x150">
+                                <img class="pull-right" data-ng-src="{{event.image}}">
                             </div>
                         </div>
                       </div>

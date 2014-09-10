@@ -41,7 +41,8 @@ body {
 }
 
 .home-form-wrap {
-	padding: 20px 40px;
+	padding: 10px 20px 0px;
+	margin-bottom: 15px;
 	background-color: #fff;
 	background-color: rgba(255, 255, 255, .8);
 	border-radius: 4px;
@@ -59,5 +60,48 @@ body {
 	line-height: 30px;
 }
 
+.social-signin i {
+	font-size: 2.5em;
+	margin-right: 4px;
+}
+
+.social-signin a {
+	margin-top: 10px;
+}
+
+.social-signin .fa-facebook-square {
+	color: #3b5998;
+
+}
+
+.social-signin .fa-twitter-square {
+	color: #4099FF;
+}
+
+.social-signin .fa-google-plus-square {
+	color: #d34836;
+}
+
+.social-home i {
+	font-size: 2.5em;
+	margin-right: 4px;
+}
+
+.social-home a {
+	margin-top: 10px;
+}
+
+.social-home .fa-facebook-square {
+	color: #3b5998;
+
+}
+
+.social-home .fa-twitter-square {
+	color: #4099FF;
+}
+
+.social-home .fa-google-plus-square {
+	color: #d34836;
+}
 
 

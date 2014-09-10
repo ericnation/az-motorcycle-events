@@ -15,7 +15,8 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 				address: this.address,
 				date: this.date,
 				time: this.time,
-				details: this.details
+				details: this.details,
+				image: this.image
 			});
 
 			// Redirect after save
@@ -76,7 +77,7 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 		      var file = $files[i];
 		      $scope.upload = $upload.upload({
 		        url: 'server/upload/url', //upload.php script, node.js route, or servlet url
-		        //method: 'POST' or 'PUT',
+		        method: 'PUT',
 		        //headers: {'header-key': 'header-value'},
 		        //withCredentials: true,
 		        data: {myObj: $scope.myModelObj},

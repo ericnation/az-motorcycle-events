@@ -54,6 +54,10 @@ var EventSchema = new Schema({
 		type: Date,
 		default: Date.now
 	},
+	image: {
+		data: Buffer,
+		type: String
+	},
 	user: {
 		type: Schema.ObjectId,
 		ref: 'User'
