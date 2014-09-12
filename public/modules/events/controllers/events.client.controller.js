@@ -15,6 +15,7 @@ angular.module('events').controller('EventsController', ['$scope', '$stateParams
 				address: this.address,
 				date: this.date,
 				time: this.time,
+				link: this.link,
 				details: this.details,
 				image: this.image
 			});

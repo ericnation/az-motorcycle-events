@@ -18,6 +18,7 @@
 					<p><span><strong>Date:</strong></span> &nbsp; {{event.date | date:'shortDate'}}</p>
 					<p><span><strong>Time:</strong></span> &nbsp; {{event.time}}</p>
 					<p><span><strong>Cost:</strong></span> &nbsp; {{event.cost}}</p>
+					<p><span><strong>Event Link:</strong></span> &nbsp; <a ng-href="{{event.link}}" target="_blank" data-ng-bind="event.link"></a></p>
 					<p><span><strong>Details:</strong></span> &nbsp; {{event.details}}</p>
 				</div>
 				<div class="col-xs-12 col-md-6">

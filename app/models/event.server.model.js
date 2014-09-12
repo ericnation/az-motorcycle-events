@@ -45,6 +45,11 @@ var EventSchema = new Schema({
 		default: '',
 		trim: true
 	},
+	link: {
+		type: String,
+		default: '',
+		trim: true
+	},
 	details: {
 		type: String,
 		default: '',
