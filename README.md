@@ -1,2 +1,1 @@
-
-This is a simple events web application I built in order to learn the MEAN stack[MEANJS.org](http://meanjs.org/).
+AZ Motorcycle Events is a simple web application I'm building using MEAN.JS [MEANJS.org](http://meanjs.org/).
