@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: process.env.MONGOHQ_URL || process.env.MONGOLAB_URI || 'mongodb://localhost/az-biker-events',
+	db: process.env.MONGOHQ_URL || 'mongodb://admin:Erocks12@ds035250.mongolab.com:35250/heroku_app29527262' || 'mongodb://localhost/az-biker-events',
 	assets: {
 		lib: {
 			css: [
