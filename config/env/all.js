@@ -3,7 +3,7 @@
 module.exports = {
 	app: {
 		title: 'AZ Motorcycle Events',
-		description: 'App for findoing out local events in arizona',
+		description: 'Find out where all the local motorcycle events are happening in Arizona!',
 		keywords: 'Motorcycles, Events, Local, Arizona, Phoenix, Bikers'
 	},
 	port: process.env.PORT || 3000,
