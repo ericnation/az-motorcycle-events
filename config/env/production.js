@@ -10,7 +10,8 @@ module.exports = {
 			js: [
 				'public/lib/ng-file-upload-shim/angular-file-upload-shim.min.js',
 				'public/lib/angular/angular.min.js',
-				'public/lib/angular-resource/angular-resource.js', 
+				'public/lib/angular-resource/angular-resource.js',
+				'public/lib/angular-route/angular-route.js', 
 				'public/lib/angular-cookies/angular-cookies.js', 
 				'public/lib/angular-animate/angular-animate.js', 
 				'public/lib/angular-touch/angular-touch.js', 

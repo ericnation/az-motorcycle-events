@@ -5,6 +5,7 @@ var ApplicationConfiguration = function () {
     var applicationModuleName = 'az-biker-events';
     var applicationModuleVendorDependencies = [
         'ngResource',
+        'ngRoute',
         'ngCookies',
         'ngAnimate',
         'ngTouch',
