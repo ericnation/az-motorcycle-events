@@ -1,6 +1,9 @@
 'use strict';
+// Init the application configuration module for AngularJS application
 var ApplicationConfiguration = function () {
-    var applicationModuleName = 'az-biker-events', applicationModuleVendorDependencies = [
+    // Init module configuration options
+    var applicationModuleName = 'az-biker-events';
+    var applicationModuleVendorDependencies = [
         'ngResource',
         'ngCookies',
         'ngAnimate',
@@ -11,125 +14,234 @@ var ApplicationConfiguration = function () {
         'ui.utils',
         'ui.gravatar',
         'angularFileUpload'
-      ], registerModule = function (moduleName, dependencies) {
-        angular.module(moduleName, dependencies || []), angular.module(applicationModuleName).requires.push(moduleName);
-      };
+      ];
+    // Add a new vertical module
+    var registerModule = function (moduleName, dependencies) {
+      // Create angular module
+      angular.module(moduleName, dependencies || []);
+      // Add the module to the AngularJS configuration file
+      angular.module(applicationModuleName).requires.push(moduleName);
+    };
     return {
       applicationModuleName: applicationModuleName,
       applicationModuleVendorDependencies: applicationModuleVendorDependencies,
       registerModule: registerModule
     };
-  }();
-angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies), angular.module(ApplicationConfiguration.applicationModuleName).config([
+  }();'use strict';
+//Start by defining the main module and adding the module dependencies
+angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfiguration.applicationModuleVendorDependencies);
+// Setting HTML5 Location Mode
+angular.module(ApplicationConfiguration.applicationModuleName).config([
   '$locationProvider',
   function ($locationProvider) {
     $locationProvider.hashPrefix('!');
   }
-]), angular.element(document).ready(function () {
-  '#_=_' === window.location.hash && (window.location.hash = '#!'), angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
-}), ApplicationConfiguration.registerModule('core'), ApplicationConfiguration.registerModule('events'), ApplicationConfiguration.registerModule('users'), angular.module('core').config([
+]);
+//Then define the init function for starting up the application
+angular.element(document).ready(function () {
+  //Fixing facebook bug with redirect
+  if (window.location.hash === '#_=_')
+    window.location.hash = '#!';
+  //Then init the app
+  angular.bootstrap(document, [ApplicationConfiguration.applicationModuleName]);
+});'use strict';
+// Use Applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('core');'use strict';
+// Use applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('events');'use strict';
+// Use Applicaion configuration module to register a new module
+ApplicationConfiguration.registerModule('users');'use strict';
+// Setting up route
+angular.module('core').config([
   '$stateProvider',
   '$urlRouterProvider',
   function ($stateProvider, $urlRouterProvider) {
-    $urlRouterProvider.otherwise('/'), $stateProvider.state('home', {
+    // Redirect to home view when route not found
+    $urlRouterProvider.otherwise('/');
+    // Home state routing
+    $stateProvider.state('home', {
       url: '/',
       templateUrl: 'modules/core/views/home.client.view.html'
     });
   }
-]), angular.module('core').controller('HeaderController', [
+]);'use strict';
+angular.module('core').controller('HeaderController', [
   '$scope',
   'Authentication',
   'Menus',
   function ($scope, Authentication, Menus) {
-    $scope.authentication = Authentication, $scope.isCollapsed = !1, $scope.menu = Menus.getMenu('topbar'), $scope.toggleCollapsibleMenu = function () {
+    $scope.authentication = Authentication;
+    $scope.isCollapsed = false;
+    $scope.menu = Menus.getMenu('topbar');
+    $scope.toggleCollapsibleMenu = function () {
       $scope.isCollapsed = !$scope.isCollapsed;
-    }, $scope.$on('$stateChangeSuccess', function () {
-      $scope.isCollapsed = !1;
+    };
+    // Collapsing the menu after navigation
+    $scope.$on('$stateChangeSuccess', function () {
+      $scope.isCollapsed = false;
     });
   }
-]), angular.module('core').controller('HomeController', [
+]);'use strict';
+angular.module('core').controller('HomeController', [
   '$scope',
   'Authentication',
   function ($scope, Authentication) {
+    // This provides Authentication context.
     $scope.authentication = Authentication;
   }
-]), angular.module('core').service('Menus', [function () {
-    this.defaultRoles = ['*'], this.menus = {};
+]);'use strict';
+//Menu service used for managing  menus
+angular.module('core').service('Menus', [function () {
+    // Define a set of default roles
+    this.defaultRoles = ['*'];
+    // Define the menus object
+    this.menus = {};
+    // A private function for rendering decision 
     var shouldRender = function (user) {
-      if (!user)
+      if (user) {
+        if (!!~this.roles.indexOf('*')) {
+          return true;
+        } else {
+          for (var userRoleIndex in user.roles) {
+            for (var roleIndex in this.roles) {
+              if (this.roles[roleIndex] === user.roles[userRoleIndex]) {
+                return true;
+              }
+            }
+          }
+        }
+      } else {
         return this.isPublic;
-      if (~this.roles.indexOf('*'))
-        return !0;
-      for (var userRoleIndex in user.roles)
-        for (var roleIndex in this.roles)
-          if (this.roles[roleIndex] === user.roles[userRoleIndex])
-            return !0;
-      return !1;
+      }
+      return false;
     };
+    // Validate menu existance
     this.validateMenuExistance = function (menuId) {
       if (menuId && menuId.length) {
-        if (this.menus[menuId])
-          return !0;
-        throw new Error('Menu does not exists');
+        if (this.menus[menuId]) {
+          return true;
+        } else {
+          throw new Error('Menu does not exists');
+        }
+      } else {
+        throw new Error('MenuId was not provided');
       }
-      throw new Error('MenuId was not provided');
-    }, this.getMenu = function (menuId) {
-      return this.validateMenuExistance(menuId), this.menus[menuId];
-    }, this.addMenu = function (menuId, isPublic, roles) {
-      return this.menus[menuId] = {
-        isPublic: isPublic || !1,
+      return false;
+    };
+    // Get the menu object by menu id
+    this.getMenu = function (menuId) {
+      // Validate that the menu exists
+      this.validateMenuExistance(menuId);
+      // Return the menu object
+      return this.menus[menuId];
+    };
+    // Add new menu object by menu id
+    this.addMenu = function (menuId, isPublic, roles) {
+      // Create the new menu
+      this.menus[menuId] = {
+        isPublic: isPublic || false,
         roles: roles || this.defaultRoles,
         items: [],
         shouldRender: shouldRender
-      }, this.menus[menuId];
-    }, this.removeMenu = function (menuId) {
-      this.validateMenuExistance(menuId), delete this.menus[menuId];
-    }, this.addMenuItem = function (menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position) {
-      return this.validateMenuExistance(menuId), this.menus[menuId].items.push({
+      };
+      // Return the menu object
+      return this.menus[menuId];
+    };
+    // Remove existing menu object by menu id
+    this.removeMenu = function (menuId) {
+      // Validate that the menu exists
+      this.validateMenuExistance(menuId);
+      // Return the menu object
+      delete this.menus[menuId];
+    };
+    // Add menu item object
+    this.addMenuItem = function (menuId, menuItemTitle, menuItemURL, menuItemType, menuItemUIRoute, isPublic, roles, position) {
+      // Validate that the menu exists
+      this.validateMenuExistance(menuId);
+      // Push new menu item
+      this.menus[menuId].items.push({
         title: menuItemTitle,
         link: menuItemURL,
         menuItemType: menuItemType || 'item',
         menuItemClass: menuItemType,
         uiRoute: menuItemUIRoute || '/' + menuItemURL,
-        isPublic: null === isPublic || 'undefined' == typeof isPublic ? this.menus[menuId].isPublic : isPublic,
-        roles: null === roles || 'undefined' == typeof roles ? this.menus[menuId].roles : roles,
+        isPublic: isPublic === null || typeof isPublic === 'undefined' ? this.menus[menuId].isPublic : isPublic,
+        roles: roles === null || typeof roles === 'undefined' ? this.menus[menuId].roles : roles,
         position: position || 0,
         items: [],
         shouldRender: shouldRender
-      }), this.menus[menuId];
-    }, this.addSubMenuItem = function (menuId, rootMenuItemURL, menuItemTitle, menuItemURL, menuItemUIRoute, isPublic, roles, position) {
-      this.validateMenuExistance(menuId);
-      for (var itemIndex in this.menus[menuId].items)
-        this.menus[menuId].items[itemIndex].link === rootMenuItemURL && this.menus[menuId].items[itemIndex].items.push({
-          title: menuItemTitle,
-          link: menuItemURL,
-          uiRoute: menuItemUIRoute || '/' + menuItemURL,
-          isPublic: null === isPublic || 'undefined' == typeof isPublic ? this.menus[menuId].items[itemIndex].isPublic : isPublic,
-          roles: null === roles || 'undefined' == typeof roles ? this.menus[menuId].items[itemIndex].roles : roles,
-          position: position || 0,
-          shouldRender: shouldRender
-        });
+      });
+      // Return the menu object
       return this.menus[menuId];
-    }, this.removeMenuItem = function (menuId, menuItemURL) {
+    };
+    // Add submenu item object
+    this.addSubMenuItem = function (menuId, rootMenuItemURL, menuItemTitle, menuItemURL, menuItemUIRoute, isPublic, roles, position) {
+      // Validate that the menu exists
       this.validateMenuExistance(menuId);
-      for (var itemIndex in this.menus[menuId].items)
-        this.menus[menuId].items[itemIndex].link === menuItemURL && this.menus[menuId].items.splice(itemIndex, 1);
+      // Search for menu item
+      for (var itemIndex in this.menus[menuId].items) {
+        if (this.menus[menuId].items[itemIndex].link === rootMenuItemURL) {
+          // Push new submenu item
+          this.menus[menuId].items[itemIndex].items.push({
+            title: menuItemTitle,
+            link: menuItemURL,
+            uiRoute: menuItemUIRoute || '/' + menuItemURL,
+            isPublic: isPublic === null || typeof isPublic === 'undefined' ? this.menus[menuId].items[itemIndex].isPublic : isPublic,
+            roles: roles === null || typeof roles === 'undefined' ? this.menus[menuId].items[itemIndex].roles : roles,
+            position: position || 0,
+            shouldRender: shouldRender
+          });
+        }
+      }
+      // Return the menu object
       return this.menus[menuId];
-    }, this.removeSubMenuItem = function (menuId, submenuItemURL) {
+    };
+    // Remove existing menu object by menu id
+    this.removeMenuItem = function (menuId, menuItemURL) {
+      // Validate that the menu exists
       this.validateMenuExistance(menuId);
-      for (var itemIndex in this.menus[menuId].items)
-        for (var subitemIndex in this.menus[menuId].items[itemIndex].items)
-          this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL && this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
+      // Search for menu item to remove
+      for (var itemIndex in this.menus[menuId].items) {
+        if (this.menus[menuId].items[itemIndex].link === menuItemURL) {
+          this.menus[menuId].items.splice(itemIndex, 1);
+        }
+      }
+      // Return the menu object
       return this.menus[menuId];
-    }, this.addMenu('topbar');
-  }]), angular.module('events').run([
+    };
+    // Remove existing menu object by menu id
+    this.removeSubMenuItem = function (menuId, submenuItemURL) {
+      // Validate that the menu exists
+      this.validateMenuExistance(menuId);
+      // Search for menu item to remove
+      for (var itemIndex in this.menus[menuId].items) {
+        for (var subitemIndex in this.menus[menuId].items[itemIndex].items) {
+          if (this.menus[menuId].items[itemIndex].items[subitemIndex].link === submenuItemURL) {
+            this.menus[menuId].items[itemIndex].items.splice(subitemIndex, 1);
+          }
+        }
+      }
+      // Return the menu object
+      return this.menus[menuId];
+    };
+    //Adding the topbar menu
+    this.addMenu('topbar');
+  }]);'use strict';
+// Configuring the Articles module
+angular.module('events').run([
   'Menus',
   function (Menus) {
-    Menus.addMenuItem('topbar', 'Events', 'events', 'dropdown', '/events(/create)?'), Menus.addSubMenuItem('topbar', 'events', 'Events', 'events'), Menus.addSubMenuItem('topbar', 'events', 'Create Event', 'events/create');
+    // Set top bar menu items
+    Menus.addMenuItem('topbar', 'Events', 'events', 'dropdown', '/events(/create)?');
+    Menus.addSubMenuItem('topbar', 'events', 'Events', 'events');
+    Menus.addSubMenuItem('topbar', 'events', 'Create Event', 'events/create');
   }
-]), angular.module('events').config([
+]);'use strict';
+//Setting up route
+angular.module('events').config([
   '$stateProvider',
   function ($stateProvider) {
+    // Events state routing
     $stateProvider.state('listEvents', {
       url: '/events',
       templateUrl: 'modules/events/views/list-events.client.view.html'
@@ -144,7 +256,9 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
       templateUrl: 'modules/events/views/edit-event.client.view.html'
     });
   }
-]), angular.module('events').controller('EventsController', [
+]);'use strict';
+// Events controller
+angular.module('events').controller('EventsController', [
   '$scope',
   '$stateParams',
   '$location',
@@ -152,7 +266,10 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
   'Events',
   '$upload',
   function ($scope, $stateParams, $location, Authentication, Events, $upload) {
-    $scope.authentication = Authentication, $scope.create = function () {
+    $scope.authentication = Authentication;
+    // Create new Event
+    $scope.create = function () {
+      // Create new Event object
       var event = new Events({
           name: this.name,
           host: this.host,
@@ -164,32 +281,50 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
           details: this.details,
           image: this.image
         });
+      // Redirect after save
       event.$save(function (response) {
-        $location.path('events/' + response._id), $scope.name = '';
+        $location.path('events/' + response._id);
+        // Clear form fields
+        $scope.name = '';
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
-    }, $scope.remove = function (event) {
+    };
+    // Remove existing Event
+    $scope.remove = function (event) {
       if (event) {
         event.$remove();
-        for (var i in $scope.events)
-          $scope.events[i] === event && $scope.events.splice(i, 1);
-      } else
+        for (var i in $scope.events) {
+          if ($scope.events[i] === event) {
+            $scope.events.splice(i, 1);
+          }
+        }
+      } else {
         $scope.event.$remove(function () {
           $location.path('events');
         });
-    }, $scope.update = function () {
+      }
+    };
+    // Update existing Event
+    $scope.update = function () {
       var event = $scope.event;
       event.$update(function () {
         $location.path('events/' + event._id);
       }, function (errorResponse) {
         $scope.error = errorResponse.data.message;
       });
-    }, $scope.find = function () {
+    };
+    // Find a list of Events
+    $scope.find = function () {
       $scope.events = Events.query();
-    }, $scope.findOne = function () {
+    };
+    // Find existing Event
+    $scope.findOne = function () {
       $scope.event = Events.get({ eventId: $stateParams.eventId });
-    }, $scope.onFileSelect = function ($files) {
+    };
+    //https://github.com/danialfarid/angular-file-upload
+    $scope.onFileSelect = function ($files) {
+      //$files: an array of files selected, each file has name, size, and type.
       for (var i = 0; i < $files.length; i++) {
         var file = $files[i];
         $scope.upload = $upload.upload({
@@ -199,33 +334,60 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
           file: file
         }).progress(function (evt) {
           console.log('percent: ' + parseInt(100 * evt.loaded / evt.total));
-        }).success(function (data) {
+        }).success(function (data, status, headers, config) {
+          // file is uploaded successfully
           console.log(data);
-        });
-      }
-    }, $scope.today = function () {
+        });  //.error(...)
+             //.then(success, error, progress); 
+             // access or attach event listeners to the underlying XMLHttpRequest.
+             //.xhr(function(xhr){xhr.upload.addEventListener(...)})
+      }  /* alternative way of uploading, send the file binary with the file's content-type.
+		       Could be used to upload files to CouchDB, imgur, etc... html5 FileReader is needed. 
+		       It could also be used to monitor the progress of a normal http post/put request with large data*/
+         // $scope.upload = $upload.http({...})  see 88#issuecomment-31366487 for sample code.
+    };
+    //Code for Date Date Picker http://angular-ui.github.io/bootstrap/#/datepicker
+    $scope.today = function () {
       $scope.date = new Date();
-    }, $scope.today(), $scope.clear = function () {
+    };
+    $scope.today();
+    $scope.clear = function () {
       $scope.date = null;
-    }, $scope.disabled = function (date, mode) {
-      return 'day' === mode && (0 === date.getDay() || 6 === date.getDay());
-    }, $scope.toggleMin = function () {
+    };
+    // Disable weekend selection
+    $scope.disabled = function (date, mode) {
+      return mode === 'day' && (date.getDay() === 0 || date.getDay() === 6);
+    };
+    $scope.toggleMin = function () {
       $scope.minDate = $scope.minDate ? null : new Date();
-    }, $scope.toggleMin(), $scope.open = function ($event) {
-      $event.preventDefault(), $event.stopPropagation(), $scope.opened = !0;
-    }, $scope.dateOptions = {
+    };
+    $scope.toggleMin();
+    $scope.open = function ($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+      $scope.opened = true;
+    };
+    $scope.dateOptions = {
       formatYear: 'yy',
       startingDay: 1
-    }, $scope.initDate = new Date('09/09/2014'), $scope.formats = ['shortDate'], $scope.format = $scope.formats[0];
+    };
+    $scope.initDate = new Date('09/09/2014');
+    $scope.formats = ['shortDate'];
+    $scope.format = $scope.formats[0];
   }
-]), angular.module('events').factory('Events', [
+]);'use strict';
+//Events service used to communicate Events REST endpoints
+angular.module('events').factory('Events', [
   '$resource',
   function ($resource) {
     return $resource('events/:eventId', { eventId: '@_id' }, { update: { method: 'PUT' } });
   }
-]), angular.module('users').config([
+]);'use strict';
+// Config HTTP Error Handling
+angular.module('users').config([
   '$httpProvider',
   function ($httpProvider) {
+    // Set the httpProvider "not authorized" interceptor
     $httpProvider.interceptors.push([
       '$q',
       '$location',
@@ -235,9 +397,14 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
           responseError: function (rejection) {
             switch (rejection.status) {
             case 401:
-              Authentication.user = null, $location.path('signin');
+              // Deauthenticate the global user
+              Authentication.user = null;
+              // Redirect to signin page
+              $location.path('signin');
               break;
             case 403:
+              // Add unauthorized behaviour 
+              break;
             }
             return $q.reject(rejection);
           }
@@ -245,9 +412,12 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
       }
     ]);
   }
-]), angular.module('users').config([
+]);'use strict';
+// Setting up route
+angular.module('users').config([
   '$stateProvider',
   function ($stateProvider) {
+    // Users state routing
     $stateProvider.state('profile', {
       url: '/settings/profile',
       templateUrl: 'modules/users/views/settings/edit-profile.client.view.html'
@@ -277,89 +447,148 @@ angular.module(ApplicationConfiguration.applicationModuleName, ApplicationConfig
       templateUrl: 'modules/users/views/password/reset-password.client.view.html'
     });
   }
-]), angular.module('users').controller('AuthenticationController', [
+]);'use strict';
+angular.module('users').controller('AuthenticationController', [
   '$scope',
   '$http',
   '$location',
   'Authentication',
   function ($scope, $http, $location, Authentication) {
-    $scope.authentication = Authentication, $scope.authentication.user && $location.path('/events'), $scope.signup = function () {
+    $scope.authentication = Authentication;
+    // If user is signed in then redirect back home
+    if ($scope.authentication.user)
+      $location.path('/events');
+    $scope.signup = function () {
       $http.post('/auth/signup', $scope.credentialssignup).success(function (response) {
-        $scope.authentication.user = response, $location.path('/events');
+        // If successful we assign the response to the global user model
+        $scope.authentication.user = response;
+        // And redirect to the index page
+        $location.path('/events');
       }).error(function (response) {
         $scope.error = response.message;
       });
-    }, $scope.signin = function () {
+    };
+    $scope.signin = function () {
       $http.post('/auth/signin', $scope.credentialssignin).success(function (response) {
-        $scope.authentication.user = response, $location.path('/events');
+        // If successful we assign the response to the global user model
+        $scope.authentication.user = response;
+        // And redirect to the index page
+        $location.path('/events');
       }).error(function (response) {
         $scope.error = response.message;
       });
     };
   }
-]), angular.module('users').controller('PasswordController', [
+]);'use strict';
+angular.module('users').controller('PasswordController', [
   '$scope',
   '$stateParams',
   '$http',
   '$location',
   'Authentication',
   function ($scope, $stateParams, $http, $location, Authentication) {
-    $scope.authentication = Authentication, $scope.authentication.user && $location.path('/events'), $scope.askForPasswordReset = function () {
-      $scope.success = $scope.error = null, $http.post('/auth/forgot', $scope.credentials).success(function (response) {
-        $scope.credentials = null, $scope.success = response.message;
+    $scope.authentication = Authentication;
+    //If user is signed in then redirect back home
+    if ($scope.authentication.user)
+      $location.path('/events');
+    // Submit forgotten password account id
+    $scope.askForPasswordReset = function () {
+      $scope.success = $scope.error = null;
+      $http.post('/auth/forgot', $scope.credentials).success(function (response) {
+        // Show user success message and clear form
+        $scope.credentials = null;
+        $scope.success = response.message;
       }).error(function (response) {
-        $scope.credentials = null, $scope.error = response.message;
+        // Show user error message and clear form
+        $scope.credentials = null;
+        $scope.error = response.message;
       });
-    }, $scope.resetUserPassword = function () {
-      $scope.success = $scope.error = null, $http.post('/auth/reset/' + $stateParams.token, $scope.passwordDetails).success(function (response) {
-        $scope.passwordDetails = null, Authentication.user = response, $location.path('/password/reset/success');
+    };
+    // Change user password
+    $scope.resetUserPassword = function () {
+      $scope.success = $scope.error = null;
+      $http.post('/auth/reset/' + $stateParams.token, $scope.passwordDetails).success(function (response) {
+        // If successful show success message and clear form
+        $scope.passwordDetails = null;
+        // Attach user profile
+        Authentication.user = response;
+        // And redirect to the index page
+        $location.path('/password/reset/success');
       }).error(function (response) {
         $scope.error = response.message;
       });
     };
   }
-]), angular.module('users').controller('SettingsController', [
+]);'use strict';
+angular.module('users').controller('SettingsController', [
   '$scope',
   '$http',
   '$location',
   'Users',
   'Authentication',
   function ($scope, $http, $location, Users, Authentication) {
-    $scope.user = Authentication.user, $scope.user || $location.path('/'), $scope.hasConnectedAdditionalSocialAccounts = function () {
-      for (var i in $scope.user.additionalProvidersData)
-        return !0;
-      return !1;
-    }, $scope.isConnectedSocialAccount = function (provider) {
+    $scope.user = Authentication.user;
+    // If user is not signed in then redirect back home
+    if (!$scope.user)
+      $location.path('/');
+    // Check if there are additional accounts 
+    $scope.hasConnectedAdditionalSocialAccounts = function (provider) {
+      for (var i in $scope.user.additionalProvidersData) {
+        return true;
+      }
+      return false;
+    };
+    // Check if provider is already in use with current user
+    $scope.isConnectedSocialAccount = function (provider) {
       return $scope.user.provider === provider || $scope.user.additionalProvidersData && $scope.user.additionalProvidersData[provider];
-    }, $scope.removeUserSocialAccount = function (provider) {
-      $scope.success = $scope.error = null, $http.delete('/users/accounts', { params: { provider: provider } }).success(function (response) {
-        $scope.success = !0, $scope.user = Authentication.user = response;
+    };
+    // Remove a user social account
+    $scope.removeUserSocialAccount = function (provider) {
+      $scope.success = $scope.error = null;
+      $http.delete('/users/accounts', { params: { provider: provider } }).success(function (response) {
+        // If successful show success message and clear form
+        $scope.success = true;
+        $scope.user = Authentication.user = response;
       }).error(function (response) {
         $scope.error = response.message;
       });
-    }, $scope.updateUserProfile = function (isValid) {
+    };
+    // Update a user profile
+    $scope.updateUserProfile = function (isValid) {
       if (isValid) {
         $scope.success = $scope.error = null;
         var user = new Users($scope.user);
         user.$update(function (response) {
-          $scope.success = !0, Authentication.user = response;
+          $scope.success = true;
+          Authentication.user = response;
         }, function (response) {
           $scope.error = response.data.message;
         });
-      } else
-        $scope.submitted = !0;
-    }, $scope.changeUserPassword = function () {
-      $scope.success = $scope.error = null, $http.post('/users/password', $scope.passwordDetails).success(function () {
-        $scope.success = !0, $scope.passwordDetails = null;
+      } else {
+        $scope.submitted = true;
+      }
+    };
+    // Change user password
+    $scope.changeUserPassword = function () {
+      $scope.success = $scope.error = null;
+      $http.post('/users/password', $scope.passwordDetails).success(function (response) {
+        // If successful show success message and clear form
+        $scope.success = true;
+        $scope.passwordDetails = null;
       }).error(function (response) {
         $scope.error = response.message;
       });
     };
   }
-]), angular.module('users').factory('Authentication', [function () {
+]);'use strict';
+// Authentication service for user variables
+angular.module('users').factory('Authentication', [function () {
     var _this = this;
-    return _this._data = { user: window.user }, _this._data;
-  }]), angular.module('users').factory('Users', [
+    _this._data = { user: window.user };
+    return _this._data;
+  }]);'use strict';
+// Users service used for communicating with the users REST endpoint
+angular.module('users').factory('Users', [
   '$resource',
   function ($resource) {
     return $resource('users', {}, { update: { method: 'PUT' } });
