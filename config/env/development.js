@@ -1,7 +1,7 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://admin:Erocks12@ds035250.mongolab.com:35250/heroku_app29527262'
+	db: 'mongodb://localhost/az-biker-events-dev',
 	app: {
 		title: 'AZ Biker Events - Development Environment'
 	},

@@ -1,12 +1,11 @@
 'use strict';
 
 module.exports = {
-	db: 'mongodb://admin:Erocks12@ds035250.mongolab.com:35250/heroku_app29527262'
+	db: 'mongodb://admin:Erocks12@ds035250.mongolab.com:35250/heroku_app29527262' || 'mongodb://localhost/az-biker-events-dev',
 	assets: {
 		lib: {
 			css: [
-				'public/lib/bootstrap/dist/css/bootstrap.min.css',
-				'public/lib/bootstrap/dist/css/bootstrap-theme.min.css',
+				'public/lib/bootstrap/dist/css/bootstrap.min.css'
 			],
 			js: [
 				'public/lib/ng-file-upload-shim/angular-file-upload-shim.min.js',
