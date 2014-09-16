@@ -30,11 +30,11 @@
                                 <p><strong>Date:</strong> <span data-ng-bind="event.date | date:'shortDate'"></span></p>
                                 <p><strong>Time:</strong> <span data-ng-bind="event.time"></span></p>
                                 <p><strong>Cost:</strong> <span data-ng-bind="event.cost"></span></p>
-                                <p><strong>Event Link:</strong> <a ng-href="{{event.link}}" data-ng-bind="event.link"></a></p>
+                                <p><strong>Event Link:</strong> <a ng-href="{{event.link}}" data-ng-bind="event.link" target="_blank"></a></p>
                                 <p><strong>Details:</strong> <span data-ng-bind="event.details"></span></p>
                             </div>
                             <div class="col-md-5">
-                                <img class="pull-right" data-ng-src="{{event.image}}">
+                                <img class="pull-right" data-ng-bind="event.image" data-ng-src="event.image">
                             </div>
                         </div>
                       </div>

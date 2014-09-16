@@ -4,7 +4,8 @@
  * Module dependencies.
  */
 var mongoose = require('mongoose'),
-	Schema = mongoose.Schema;
+		  fs = require('fs'),
+	  Schema = mongoose.Schema;
 
 /**
  * Event Schema
