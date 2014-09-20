@@ -32,7 +32,7 @@ module.exports = {
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || '1522550604624535',
 		clientSecret: process.env.FACEBOOK_SECRET || 'a800842909ca5b60aff2fb582f765e63',
-		callbackURL: 'http://warm-waters-3704.herokuapp.com/auth/facebook/callback'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/#!/auth/facebook/callback'
 	},
 	twitter: {
 		clientID: process.env.TWITTER_KEY || 'voWlVCzI0CBpRLRHeGvPHaeON',
