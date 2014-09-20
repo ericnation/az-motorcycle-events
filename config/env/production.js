@@ -32,12 +32,12 @@ module.exports = {
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || '1522550604624535',
 		clientSecret: process.env.FACEBOOK_SECRET || 'a800842909ca5b60aff2fb582f765e63',
-		callbackURL: 'http://localhost:3000/auth/facebook/callback'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/auth/facebook/callback'
 	},
 	twitter: {
 		clientID: process.env.TWITTER_KEY || 'voWlVCzI0CBpRLRHeGvPHaeON',
 		clientSecret: process.env.TWITTER_SECRET || 'CprT6gnW5K6nikpW4ihUWcNTz6QbW3rmZb1cPK1mK3fZTeJ18w',
-		callbackURL: 'http://warm-waters-3704.herokuapp.com/#!/events'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/auth/twitter/callback'
 	},
 	google: {
 		clientID: process.env.GOOGLE_ID || 'APP_ID',
