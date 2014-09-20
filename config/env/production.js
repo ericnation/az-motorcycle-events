@@ -32,7 +32,7 @@ module.exports = {
 	facebook: {
 		clientID: process.env.FACEBOOK_ID || '1522550604624535',
 		clientSecret: process.env.FACEBOOK_SECRET || 'a800842909ca5b60aff2fb582f765e63',
-		callbackURL: 'http://warm-waters-3704.herokuapp.com/auth/facebook/callback'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/#!/auth/facebook/callback'
 	},
 	twitter: {
 		clientID: process.env.TWITTER_KEY || 'voWlVCzI0CBpRLRHeGvPHaeON',
@@ -42,7 +42,7 @@ module.exports = {
 	google: {
 		clientID: process.env.GOOGLE_ID || '71987539215-922koif8usuq5or4eoq1qgfttrd1r9jj.apps.googleusercontent.com',
 		clientSecret: process.env.GOOGLE_SECRET || 'b1h0v4ZWSFM8un4xoBbR7_ov',
-		callbackURL: 'http://warm-waters-3704.herokuapp.com/auth/google/callback'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/#!/auth/google/callback'
 	},
 	linkedin: {
 		clientID: process.env.LINKEDIN_ID || 'APP_ID',
