@@ -30,7 +30,8 @@ module.exports = {
 				'public/lib/angular-gravatar/md5.min.js',
 				'public/lib/angular-gravatar/angular-gravatar.min.js',
 				'public/lib/ng-file-upload-shim/angular-file-upload.min.js',
-				'public/lib/jquery/dist/jquery.min.js'
+				'public/lib/jquery/dist/jquery.min.js', 
+				'public/lib/xml2json.js'
 			]
 		},
 		css: [

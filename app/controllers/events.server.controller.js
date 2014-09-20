@@ -8,6 +8,8 @@ var mongoose = require('mongoose'),
 	Event = mongoose.model('Event'),
 	_ = require('lodash');
 
+
+
 /**
  * Create a Event
  */
