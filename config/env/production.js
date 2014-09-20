@@ -37,7 +37,7 @@ module.exports = {
 	twitter: {
 		clientID: process.env.TWITTER_KEY || 'voWlVCzI0CBpRLRHeGvPHaeON',
 		clientSecret: process.env.TWITTER_SECRET || 'CprT6gnW5K6nikpW4ihUWcNTz6QbW3rmZb1cPK1mK3fZTeJ18w',
-		callbackURL: 'http://localhost:3000/auth/twitter/callback'
+		callbackURL: 'http://warm-waters-3704.herokuapp.com/#!/events'
 	},
 	google: {
 		clientID: process.env.GOOGLE_ID || 'APP_ID',
