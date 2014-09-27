@@ -17,7 +17,7 @@
                 <div class="col-md-6">
                     <div class="panel panel-dark">
                       <div class="panel-heading">
-                        <a data-ng-href="#!/events/{{event._id}}">
+                        <a data-ng-href="/#!/events/{{event._id}}">
                         <h3 data-ng-bind="event.name" class="panel-title"> </h3> 
                         <span  class="pull-right" data-ng-bind="event.date | date:'shortDate'"></span></a> 
                       </div>
@@ -57,7 +57,7 @@
             </div>
         </div>
         <div class="alert alert-warning text-center" data-ng-hide="!events.$resolved || events.length">
-        	No Events yet, why don't you <a href="/#!/events/create">create one</a>?
+        	No Events yet, why don't you <a href="/events/create">create one</a>?
         </div>
     </div>
     
